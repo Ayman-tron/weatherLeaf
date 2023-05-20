@@ -3,6 +3,17 @@
 Weather Leaf is a user-friendly, efficient application for tracking real-time weather updates across various locations. 
 This application was developed using Flutter, and it employs the OpenWeatherMap API for fetching accurate weather data.
 
+<table>
+  <tr>
+    <td>
+      <img src="assets/images/home_screen.png" width="230.5" height= "512">
+    </td>
+    <td>
+      <img src="assets/images/city_screen.png" width="230.5" height= "512">
+    </td>
+  </tr>
+
+</table>
 ## Features
 - Retrieve real-time weather updates by city name
 - Fetch location-based weather data
