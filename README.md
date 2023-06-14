@@ -27,7 +27,7 @@ This application was developed using Flutter, and it employs the OpenWeatherMap 
 - Riverpod for state management
 
 ## Project Structure
-The project follows a first-feature architecture
+The project follows a feature-first architecture
 
 
 ## Setup and Installation
