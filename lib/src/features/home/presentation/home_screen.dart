@@ -6,7 +6,7 @@ import 'package:weatherLeaf/src/features/home/presentation/widgets/weather_info.
 import '../../../common_widgets/async_value_widget.dart';
 import '../../../common_widgets/error_message.dart';
 import '../../../routing/app_router.dart';
-import '../../city_search/data/city_repository.dart';
+import '../../city_search/presentation/cityScreenController.dart';
 import '../../location/data/location_repository.dart';
 import '../data/weather_repository.dart';
 import '../domain/weather.dart';
@@ -65,26 +65,21 @@ class HomeScreen extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AsyncValueWidget(
-                              value: weatherAsyncValue,
-                              data: (weather) {
-                                return Text(
-                                  "${weather.cityName}",
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                          ],
+                        AsyncValueWidget(
+                          value: weatherAsyncValue,
+                          data: (weather) {
+                            return Text(
+                              "${weather.cityName}",
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         IconButton(
                             onPressed: () =>

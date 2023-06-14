@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utilities/constants.dart';
-import '../data/city_repository.dart';
+import 'cityScreenController.dart';
 
 class City_Search extends ConsumerWidget {
   City_Search({Key? key}) : super(key: key);
