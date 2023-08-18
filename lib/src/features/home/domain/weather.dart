@@ -5,7 +5,8 @@ class Weather {
   final int humidity;
   final String cityName;
 
-  Weather({
+  // Since all variables are final, declare the constructor below as const
+  const Weather({
     required this.feelsLike,
     required this.pressure,
     required this.windSpeed,

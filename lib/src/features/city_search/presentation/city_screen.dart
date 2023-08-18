@@ -35,6 +35,9 @@ class City_Search extends ConsumerWidget {
                 ),
               ),
               Container(
+                  constraints: BoxConstraints(
+                    maxWidth: 800,
+                  ),
                   padding: EdgeInsets.all(20.0),
                   child: Form(
                     key: _formKey,

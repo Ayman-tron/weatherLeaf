@@ -4,6 +4,7 @@ import '../../location/data/location_repository.dart';
 import '../../location/domain/location.dart';
 import '../domain/weather.dart';
 import 'package:weatherLeaf/src/api/api_keys.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class WeatherRepository {
   Future<Weather> getWeatherByCity(String city);

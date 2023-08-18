@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:weatherLeaf/src/features/home/presentation/widgets/weather_info.dart';
 import '../../../common_widgets/async_value_widget.dart';
 import '../../../common_widgets/error_message.dart';
+import '../../../common_widgets/responsive_center.dart';
 import '../../../routing/app_router.dart';
 import '../../city_search/presentation/cityScreenController.dart';
 import '../../location/data/location_repository.dart';
@@ -143,58 +144,62 @@ class HomeScreen extends ConsumerWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          WeatherInfo(
-                            icon: FaIcon(FontAwesomeIcons.temperatureHigh),
-                            iconDescription: "Feels Like",
-                            data: AsyncValueWidget(
-                              value: weatherAsyncValue,
-                              data: (weather) => Text(
-                                "${weather.feelsLike.toStringAsFixed(0)}°",
+                      ResponsiveCenter(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            WeatherInfo(
+                              icon: FaIcon(FontAwesomeIcons.temperatureHigh),
+                              iconDescription: "Feels Like",
+                              data: AsyncValueWidget(
+                                value: weatherAsyncValue,
+                                data: (weather) => Text(
+                                  "${weather.feelsLike.toStringAsFixed(0)}°",
+                                ),
                               ),
                             ),
-                          ),
-                          WeatherInfo(
-                            icon: FaIcon(FontAwesomeIcons.perbyte),
-                            iconDescription: "Pressure",
-                            data: AsyncValueWidget(
-                              value: weatherAsyncValue,
-                              data: (weather) => Text(
-                                "${weather.pressure.toStringAsFixed(0)} Pa",
+                            WeatherInfo(
+                              icon: FaIcon(FontAwesomeIcons.perbyte),
+                              iconDescription: "Pressure",
+                              data: AsyncValueWidget(
+                                value: weatherAsyncValue,
+                                data: (weather) => Text(
+                                  "${weather.pressure.toStringAsFixed(0)} Pa",
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          WeatherInfo(
-                            icon: FaIcon(FontAwesomeIcons.wind),
-                            iconDescription: "Wind",
-                            data: AsyncValueWidget(
-                              value: weatherAsyncValue,
-                              data: (weather) => Text(
-                                "${weather.windSpeed.toStringAsFixed(1)} km/h",
+                      ResponsiveCenter(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            WeatherInfo(
+                              icon: FaIcon(FontAwesomeIcons.wind),
+                              iconDescription: "Wind",
+                              data: AsyncValueWidget(
+                                value: weatherAsyncValue,
+                                data: (weather) => Text(
+                                  "${weather.windSpeed.toStringAsFixed(1)} km/h",
+                                ),
                               ),
                             ),
-                          ),
-                          WeatherInfo(
-                            icon: FaIcon(FontAwesomeIcons.cloud),
-                            iconDescription: "Humidity",
-                            data: AsyncValueWidget(
-                              value: weatherAsyncValue,
-                              data: (weather) => Text(
-                                "${weather.humidity.toStringAsFixed(0)} %",
+                            WeatherInfo(
+                              icon: FaIcon(FontAwesomeIcons.cloud),
+                              iconDescription: "Humidity",
+                              data: AsyncValueWidget(
+                                value: weatherAsyncValue,
+                                data: (weather) => Text(
+                                  "${weather.humidity.toStringAsFixed(0)} %",
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
