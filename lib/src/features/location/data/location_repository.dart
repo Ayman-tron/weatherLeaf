@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -6,6 +7,7 @@ import '../domain/location.dart';
 class LocationRepository {
   Future<Location> getCurrentLocation() async {
     await Geolocator.requestPermission();
+
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -16,7 +18,8 @@ class LocationRepository {
           latitude: position.latitude, longitude: position.longitude);
     } catch (e) {
       //print(e);
-      throw Exception('Failed to get location');
+      throw Exception(
+          'Failed to get location, change location settings to proceed');
     }
   }
 }
