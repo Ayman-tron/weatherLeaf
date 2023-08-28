@@ -38,13 +38,13 @@ final weatherRepositoryProvider = Provider<WeatherRepository>((ref) {
 });
 
 final weatherByCityProvider =
-    FutureProvider.family<Weather, String>((ref, cityName) async {
+    FutureProvider.autoDispose.family<Weather, String>((ref, cityName) async {
   final api = ref.watch(weatherRepositoryProvider);
   return api.getWeatherByCity(cityName);
 });
 
 final weatherByLocationProvider =
-    FutureProvider.family<Weather, Location>((ref, location) async {
+    FutureProvider.autoDispose.family<Weather, Location>((ref, location) async {
   final weatherRepository = ref.watch(weatherRepositoryProvider);
   return weatherRepository.getWeatherByLocation(location);
 });
