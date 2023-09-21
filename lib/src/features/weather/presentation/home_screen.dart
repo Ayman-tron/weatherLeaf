@@ -7,50 +7,17 @@ import '../../../common_widgets/async_value_widget.dart';
 import '../../../common_widgets/error_message.dart';
 import '../../../common_widgets/responsive_center.dart';
 import '../../../routing/app_router.dart';
-import 'cityScreenController.dart';
-import '../../location/data/location_repository.dart';
-import '../data/weather_repository.dart';
 import '../domain/weather.dart';
 import 'loading_screen.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Listen for changes in the city name
-    final cityName = ref.watch(cityNameProvider);
-
-    // If a city name is set, use it to get the weather
-    if (cityName.isNotEmpty) {
-      final weatherAsyncValue = ref.watch(weatherByCityProvider(cityName));
-      return _buildWeatherScreen(weatherAsyncValue, context);
-    } else {
-      // If no city name is set, use the user's location
-      final locationAsyncValue = ref.watch(locationFutureProvider);
-
-      return locationAsyncValue.when(
-        data: (location) {
-          // If the user's location is available, use it to get the weather
-          final weatherAsyncValue =
-              ref.watch(weatherByLocationProvider(location));
-          return _buildWeatherScreen(weatherAsyncValue, context);
-        },
-        loading: () {
-          return LoadingScreen();
-        },
-        error: (error, stack) {
-          return ErrorMessageWidget('$error');
-        },
-      );
-    }
-  }
-
-  Widget _buildWeatherScreen(
-      AsyncValue<Weather> weatherAsyncValue, BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/city_background.png'),
             fit: BoxFit.cover,
@@ -66,63 +33,57 @@ class HomeScreen extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        AsyncValueWidget(
-                          value: weatherAsyncValue,
-                          data: (weather) {
-                            return Text(
-                              "${weather.cityName}",
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          },
+                        const Text(
+                          "London",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         IconButton(
-                            onPressed: () =>
-                                context.pushNamed(AppRoute.city.name),
-                            icon: Icon(
-                              Icons.location_city,
-                              color: Colors.white,
-                            )),
+                          onPressed: () =>
+                              context.pushNamed(AppRoute.city.name),
+                          icon: const Icon(
+                            Icons.location_city,
+                            color: Colors.white,
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Align(
-                  alignment: Alignment.topRight,
-                  child: AsyncValueWidget(
-                    value: weatherAsyncValue,
-                    data: (weather) => Text(
-                      "${weather.feelsLike.toStringAsFixed(0)}°",
-                      style: TextStyle(
-                          fontSize: 90,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
+              const Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "20°",
+                  style: TextStyle(
+                      fontSize: 90,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35,
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
                   ),
-                  child: Column(
+                  child: const Column(
                     children: [
                       SizedBox(
                         height: 20,
@@ -151,21 +112,15 @@ class HomeScreen extends ConsumerWidget {
                             WeatherInfo(
                               icon: FaIcon(FontAwesomeIcons.temperatureHigh),
                               iconDescription: "Feels Like",
-                              data: AsyncValueWidget(
-                                value: weatherAsyncValue,
-                                data: (weather) => Text(
-                                  "${weather.feelsLike.toStringAsFixed(0)}°",
-                                ),
+                              data: Text(
+                                "15°",
                               ),
                             ),
                             WeatherInfo(
                               icon: FaIcon(FontAwesomeIcons.perbyte),
                               iconDescription: "Pressure",
-                              data: AsyncValueWidget(
-                                value: weatherAsyncValue,
-                                data: (weather) => Text(
-                                  "${weather.pressure.toStringAsFixed(0)} Pa",
-                                ),
+                              data: Text(
+                                "10 Pa",
                               ),
                             ),
                           ],
@@ -181,21 +136,15 @@ class HomeScreen extends ConsumerWidget {
                             WeatherInfo(
                               icon: FaIcon(FontAwesomeIcons.wind),
                               iconDescription: "Wind",
-                              data: AsyncValueWidget(
-                                value: weatherAsyncValue,
-                                data: (weather) => Text(
-                                  "${weather.windSpeed.toStringAsFixed(1)} km/h",
-                                ),
+                              data: Text(
+                                "200 km/h",
                               ),
                             ),
                             WeatherInfo(
                               icon: FaIcon(FontAwesomeIcons.cloud),
                               iconDescription: "Humidity",
-                              data: AsyncValueWidget(
-                                value: weatherAsyncValue,
-                                data: (weather) => Text(
-                                  "${weather.humidity.toStringAsFixed(0)} %",
-                                ),
+                              data: Text(
+                                "12 %",
                               ),
                             ),
                           ],

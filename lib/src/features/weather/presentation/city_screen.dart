@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utilities/constants.dart';
-import 'cityScreenController.dart';
 
-class City_Search extends ConsumerWidget {
-  City_Search({Key? key}) : super(key: key);
+class City_Search extends StatefulWidget {
+  const City_Search({Key? key}) : super(key: key);
+
+  @override
+  State<City_Search> createState() => _State();
+}
+
+class _State extends State<City_Search> {
   final _formKey = GlobalKey<FormState>();
   final _cityController = TextEditingController();
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/location_background.png'),
             fit: BoxFit.cover,
           ),
         ),
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
             children: <Widget>[
@@ -27,7 +31,7 @@ class City_Search extends ConsumerWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios_new,
                     size: 50.0,
                     color: Colors.white,
@@ -35,10 +39,10 @@ class City_Search extends ConsumerWidget {
                 ),
               ),
               Container(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                     maxWidth: 800,
                   ),
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -55,23 +59,18 @@ class City_Search extends ConsumerWidget {
                             }
                             return null;
                           },
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                           decoration: kTextFieldDecoration.copyWith(
                               fillColor: Colors.black.withOpacity(0.5)),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ref
-                                  .read(cityNameProvider.notifier)
-                                  .updateCityName(_cityController.text.trim());
-                              Navigator.pop(context);
-                            }
+                            Navigator.pop(context);
                           },
                           child: Text(
                             'Submit',
