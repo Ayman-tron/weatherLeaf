@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/city_search/presentation/city_screen.dart';
-import '../features/home/presentation/home_screen.dart';
+import '../features/weather/presentation/city_screen.dart';
+import '../features/weather/presentation/home_screen.dart';
 
 enum AppRoute {
   home,

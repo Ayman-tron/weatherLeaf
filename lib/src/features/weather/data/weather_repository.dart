@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // make sure to import location
-import 'package:weatherLeaf/src/features/home/data/weather_service.dart';
+import 'package:weatherLeaf/src/features/weather/data/weather_service.dart';
 import '../../location/data/location_repository.dart';
 import '../../location/domain/location.dart';
 import '../domain/weather.dart';
