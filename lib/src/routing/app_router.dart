@@ -16,7 +16,7 @@ final goRouter = GoRouter(
     GoRoute(
         path: '/',
         name: AppRoute.home.name,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => HomeScreen(),
         routes: [
           GoRoute(
             path: 'citySearch',
@@ -24,7 +24,7 @@ final goRouter = GoRouter(
             pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
               fullscreenDialog: true,
-              child: City_Search(),
+              child: const City_Search(),
             ),
           ),
         ]),

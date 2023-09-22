@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:weatherLeaf/src/features/weather/presentation/widgets/weather_info.dart';
-import '../../../common_widgets/async_value_widget.dart';
-import '../../../common_widgets/error_message.dart';
-import '../../../common_widgets/responsive_center.dart';
+import 'package:weatherLeaf/src/common_widgets/async_value_widget.dart';
+import 'package:weatherLeaf/src/features/weather/application/provider.dart';
+import 'package:weatherLeaf/src/features/weather/presentation/weather_detail.dart';
 import '../../../routing/app_router.dart';
-import '../domain/weather.dart';
-import 'loading_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
+  //final LocationRepository locationRepository = LocationRepository();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weatherData = ref.watch(weatherByCityProvider);
+    // print(weatherData);
+    final city = ref.watch(cityProvider);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -33,9 +32,9 @@ class HomeScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          "London",
-                          style: TextStyle(
+                        Text(
+                          city,
+                          style: const TextStyle(
                             fontSize: 25,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -60,100 +59,23 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.topRight,
-                child: Text(
-                  "20°",
-                  style: TextStyle(
-                      fontSize: 90,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                child: AsyncValueWidget(
+                  value: weatherData,
+                  data: (weatherData) => Text(
+                    "${weatherData.feelsLike.toStringAsFixed(0)}°",
+                    style: const TextStyle(
+                        fontSize: 90,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35,
               ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: const Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Weather now",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Divider(
-                        height: 1,
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ResponsiveCenter(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            WeatherInfo(
-                              icon: FaIcon(FontAwesomeIcons.temperatureHigh),
-                              iconDescription: "Feels Like",
-                              data: Text(
-                                "15°",
-                              ),
-                            ),
-                            WeatherInfo(
-                              icon: FaIcon(FontAwesomeIcons.perbyte),
-                              iconDescription: "Pressure",
-                              data: Text(
-                                "10 Pa",
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ResponsiveCenter(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            WeatherInfo(
-                              icon: FaIcon(FontAwesomeIcons.wind),
-                              iconDescription: "Wind",
-                              data: Text(
-                                "200 km/h",
-                              ),
-                            ),
-                            WeatherInfo(
-                              icon: FaIcon(FontAwesomeIcons.cloud),
-                              iconDescription: "Humidity",
-                              data: Text(
-                                "12 %",
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              const WeatherDetail(),
             ],
           ),
         ),

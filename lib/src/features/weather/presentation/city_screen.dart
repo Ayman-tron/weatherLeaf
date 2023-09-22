@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
-import '../../../utilities/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weatherLeaf/src/features/weather/application/provider.dart';
+import '../../../constants/constants.dart';
 
-class City_Search extends StatefulWidget {
+class City_Search extends ConsumerStatefulWidget {
   const City_Search({Key? key}) : super(key: key);
 
   @override
-  State<City_Search> createState() => _State();
+  ConsumerState<ConsumerStatefulWidget> createState() => _City_SearchState();
 }
 
-class _State extends State<City_Search> {
+class _City_SearchState extends ConsumerState<City_Search> {
   final _formKey = GlobalKey<FormState>();
-  final _cityController = TextEditingController();
+
+  late final _cityController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _cityController.text = ref.read(cityProvider);
+  }
+
+  @override
+  void dispose() {
+    _cityController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +65,10 @@ class _State extends State<City_Search> {
                       children: [
                         TextFormField(
                           controller: _cityController,
+                          onFieldSubmitted: (value) {
+                            ref.read(cityProvider.notifier).state = value;
+                            Navigator.pop(context);
+                          },
                           cursorColor: Colors.white,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -70,6 +90,8 @@ class _State extends State<City_Search> {
                         ),
                         TextButton(
                           onPressed: () {
+                            ref.read(cityProvider.notifier).state =
+                                _cityController.text;
                             Navigator.pop(context);
                           },
                           child: Text(
