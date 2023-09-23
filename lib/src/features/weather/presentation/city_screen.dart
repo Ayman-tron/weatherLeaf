@@ -34,6 +34,7 @@ class _City_SearchState extends ConsumerState<City_Search> {
   }
 
   Future<void> _getUserLocationAndSetCity() async {
+    FocusScope.of(context).unfocus();
     try {
       final Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low,
@@ -100,6 +101,7 @@ class _City_SearchState extends ConsumerState<City_Search> {
                 alignment: Alignment.topLeft,
                 child: TextButton(
                   onPressed: () {
+                    FocusScope.of(context).unfocus();
                     Navigator.pop(context);
                   },
                   child: const Icon(
@@ -122,6 +124,7 @@ class _City_SearchState extends ConsumerState<City_Search> {
                           controller: _cityController,
                           onFieldSubmitted: (value) {
                             ref.read(cityProvider.notifier).state = value;
+                            FocusScope.of(context).unfocus();
                             Navigator.pop(context);
                           },
                           cursorColor: Colors.white,
@@ -172,6 +175,7 @@ class _City_SearchState extends ConsumerState<City_Search> {
                           onPressed: () {
                             ref.read(cityProvider.notifier).state =
                                 _cityController.text;
+                            FocusScope.of(context).unfocus();
                             Navigator.pop(context);
                           },
                           child: Text(

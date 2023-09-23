@@ -1,5 +1,3 @@
-//TODO Need to complete the application layer
-//TODO There is a better way to implement weatherByLatLonProvider
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';

@@ -1,4 +1,3 @@
-//TODO: Do I really need a client connection
 import 'dart:convert';
 import 'dart:io';
 
