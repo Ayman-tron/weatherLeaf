@@ -53,11 +53,12 @@ class WeatherDetail extends ConsumerWidget {
                       icon: const FaIcon(FontAwesomeIcons.temperatureHigh),
                       iconDescription: "Feels Like",
                       data: AsyncValueWidget(
-                        value: weatherData,
-                        data: (weather) => Text(
-                          "${weather.feelsLike.toStringAsFixed(0)}°",
-                        ),
-                      )),
+                          value: weatherData,
+                          data: (weather) {
+                            return Text(
+                              "${weather.feelsLike.toStringAsFixed(0)}°",
+                            );
+                          })),
                   WeatherInfo(
                       icon: const FaIcon(FontAwesomeIcons.perbyte),
                       iconDescription: "Pressure",

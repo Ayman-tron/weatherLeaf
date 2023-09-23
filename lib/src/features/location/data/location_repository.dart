@@ -33,14 +33,13 @@ class LocationRepository {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    debugPrint("Successful");
+    //debugPrint("Successful");
     // print(Geolocator.getCurrentPosition());
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.medium);
     //print(Location(latitude: position.latitude, longitude: position.longitude));
-    return Future.value(
-        Location(latitude: position.latitude, longitude: position.longitude));
+    return Location(latitude: position.latitude, longitude: position.longitude);
   }
 }
 
@@ -50,6 +49,9 @@ final locationRepositoryProvider = Provider<LocationRepository>((ref) {
 
 final locationRepositoryFutureProvider =
     FutureProvider.autoDispose<Location>((ref) async {
+  print("Fetching location...");
   final locationRepository = ref.watch(locationRepositoryProvider);
-  return locationRepository.determinePosition();
+  final location = await locationRepository.determinePosition();
+  print("Location: $location");
+  return location;
 });

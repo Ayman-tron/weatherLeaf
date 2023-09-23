@@ -17,29 +17,11 @@ final weatherByCityProvider = FutureProvider.autoDispose<Weather>((ref) async {
   return weather;
 });
 
-// final weatherByLatLonProvider =
-//     FutureProvider.autoDispose<Location>((ref) async {
-//   final location = (ref.watch(locationRepositoryFutureProvider));
-//   return location;
-// });
-
 final weatherByLatLonProvider =
-    FutureProvider.autoDispose<Weather>((ref) async {
-  final locationAsyncValue = ref.watch(locationRepositoryFutureProvider);
-
-  // Check if the locationAsyncValue has data and is not an error
-  if (locationAsyncValue is AsyncData<Location>) {
-    final location = locationAsyncValue.value;
-    final weather = await ref
-        .watch(weatherRepositoryProvider)
-        .getWeatherByLatLon(lat: location.latitude, lon: location.longitude);
-    return weather;
-  } else if (locationAsyncValue is AsyncLoading) {
-    // Handle the loading state if needed
-    // You can return a loading indicator or handle it differently
-    throw Exception("Loading");
-  } else {
-    // Handle the case where location data is not available
-    throw Exception("Failure");
-  }
+    FutureProvider.autoDispose.family<Weather, Location>((ref, location) async {
+  print("Fetching weather data by location...");
+  final weather = await ref
+      .watch(weatherRepositoryProvider)
+      .getWeatherByLatLon(location: location);
+  return weather;
 });

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:weatherLeaf/src/api/api.dart';
 import 'package:weatherLeaf/src/api/api_keys.dart';
+import 'package:weatherLeaf/src/features/location/domain/location.dart';
 import 'package:weatherLeaf/src/features/weather/data/api_exception.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
 
@@ -18,10 +19,8 @@ class HttpWeatherRepository {
         uri: api.weatherByCity(city),
         builder: (data) => Weather.fromJson(data),
       );
-  Future<Weather> getWeatherByLatLon(
-          {required double lat, required double lon}) =>
-      _getData(
-        uri: api.weatherByLatLon(lat, lon),
+  Future<Weather> getWeatherByLatLon({required Location location}) => _getData(
+        uri: api.weatherByLatLon(location.latitude, location.longitude),
         builder: (data) => Weather.fromJson(data),
       );
 
