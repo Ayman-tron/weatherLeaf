@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weatherLeaf/src/common_widgets/async_value_widget.dart';
+import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
 import 'package:weatherLeaf/src/features/weather/application/provider.dart';
+import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
+import 'package:weatherLeaf/src/features/weather/presentation/loading_screen.dart';
 import '../../../constants/constants.dart';
 
 class City_Search extends ConsumerStatefulWidget {
@@ -29,6 +33,7 @@ class _City_SearchState extends ConsumerState<City_Search> {
 
   @override
   Widget build(BuildContext context) {
+    final weatherData = ref.watch(weatherByLatLonProvider);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -82,8 +87,35 @@ class _City_SearchState extends ConsumerState<City_Search> {
                           style: const TextStyle(
                             color: Colors.white,
                           ),
-                          decoration: kTextFieldDecoration.copyWith(
-                              fillColor: Colors.black.withOpacity(0.5)),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.black45,
+                            icon: const Icon(
+                              Icons.location_city,
+                              color: Colors.white,
+                            ),
+                            hintText: 'Enter City Name',
+                            hintStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                Icons.location_on,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                final location =
+                                    ref.read(weatherByLatLonProvider);
+                                print(location.value);
+                              },
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -104,6 +136,14 @@ class _City_SearchState extends ConsumerState<City_Search> {
                       ],
                     ),
                   )),
+              //TODO Need to figure out how to implement this
+              ElevatedButton(
+                onPressed: () {},
+                child: AsyncValueWidget(
+                  value: weatherData,
+                  data: (weather) => Text(weather.cityName),
+                ),
+              )
             ],
           ),
         ),

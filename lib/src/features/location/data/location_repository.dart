@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
+import 'package:weatherLeaf/src/features/weather/data/weather_repository.dart';
+import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
 
 class LocationRepository {
-  Future<Location> _determinePosition() async {
+  Future<Location> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -36,8 +38,9 @@ class LocationRepository {
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.medium);
-    // print(Location(latitude: position.latitude, longitude: position.longitude));
-    return Location(latitude: position.latitude, longitude: position.longitude);
+    //print(Location(latitude: position.latitude, longitude: position.longitude));
+    return Future.value(
+        Location(latitude: position.latitude, longitude: position.longitude));
   }
 }
 
@@ -45,7 +48,8 @@ final locationRepositoryProvider = Provider<LocationRepository>((ref) {
   return LocationRepository();
 });
 
-final locationRepositoryFutureProvider = FutureProvider<Location>((ref) async {
+final locationRepositoryFutureProvider =
+    FutureProvider.autoDispose<Location>((ref) async {
   final locationRepository = ref.watch(locationRepositoryProvider);
-  return locationRepository._determinePosition();
+  return locationRepository.determinePosition();
 });

@@ -1,15 +1,13 @@
 //TODO Need to complete the application layer
+//TODO There is a better way to implement weatherByLatLonProvider
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
 import 'package:weatherLeaf/src/features/weather/data/weather_repository.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
 
 final cityProvider = StateProvider<String>((ref) {
   return 'Toronto';
-});
-
-final latLanProvider = StateProvider<Location>((ref) {
-  return Location(latitude: 23.4, longitude: 25.6);
 });
 
 final weatherByCityProvider = FutureProvider.autoDispose<Weather>((ref) async {
@@ -19,8 +17,29 @@ final weatherByCityProvider = FutureProvider.autoDispose<Weather>((ref) async {
   return weather;
 });
 
-// final currentWeatherProviderByLatLan = FutureProvider.autoDispose<Weather>((ref) async {
-//   final location = ref.watch(latLanProvider);
-//   final weather = await ref.watch(weatherRepositoryProvider).getWeatheByLatLon(lat: Location().latitude, lon: lon);
-//   return Weather.fromJson(weather);
+// final weatherByLatLonProvider =
+//     FutureProvider.autoDispose<Location>((ref) async {
+//   final location = (ref.watch(locationRepositoryFutureProvider));
+//   return location;
 // });
+
+final weatherByLatLonProvider =
+    FutureProvider.autoDispose<Weather>((ref) async {
+  final locationAsyncValue = ref.watch(locationRepositoryFutureProvider);
+
+  // Check if the locationAsyncValue has data and is not an error
+  if (locationAsyncValue is AsyncData<Location>) {
+    final location = locationAsyncValue.value;
+    final weather = await ref
+        .watch(weatherRepositoryProvider)
+        .getWeatherByLatLon(lat: location.latitude, lon: location.longitude);
+    return weather;
+  } else if (locationAsyncValue is AsyncLoading) {
+    // Handle the loading state if needed
+    // You can return a loading indicator or handle it differently
+    throw Exception("Loading");
+  } else {
+    // Handle the case where location data is not available
+    throw Exception("Failure");
+  }
+});
