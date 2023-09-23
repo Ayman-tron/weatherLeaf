@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/city_search/presentation/city_screen.dart';
-import '../features/home/presentation/home_screen.dart';
+import '../features/weather/presentation/city_screen.dart';
+import '../features/weather/presentation/home_screen.dart';
 
 enum AppRoute {
   home,
@@ -16,7 +16,7 @@ final goRouter = GoRouter(
     GoRoute(
         path: '/',
         name: AppRoute.home.name,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => HomeScreen(),
         routes: [
           GoRoute(
             path: 'citySearch',
@@ -24,7 +24,7 @@ final goRouter = GoRouter(
             pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
               fullscreenDialog: true,
-              child: City_Search(),
+              child: const City_Search(),
             ),
           ),
         ]),
