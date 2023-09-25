@@ -8,6 +8,8 @@ import 'package:weatherLeaf/src/api/api_keys.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
 import 'package:weatherLeaf/src/features/weather/data/api_exception.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
+// Credit: The following code snippet is adapted from the Original Project
+// (https://github.com/bizz84/open_weather_example_flutter/tree/main) by Andrea Bizztto (GitHub: @bizz84).
 
 class HttpWeatherRepository {
   HttpWeatherRepository({required this.api, required this.client});
