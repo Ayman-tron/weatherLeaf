@@ -1,3 +1,4 @@
+<a href="https://github.com/[USER_NAME]/[REPO_NAME]/actions"><img src="https://github.com/[USER_NAME]/[REPO_NAME]/workflows/test-my-app/badge.svg" alt="Build Status"></a>
 # Weather Leaf - Weather App
 
 Weather Leaf is a user-friendly, efficient application for tracking real-time weather updates across various locations. 
