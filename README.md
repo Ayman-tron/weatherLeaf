@@ -1,4 +1,4 @@
-<a href="https://github.com/Ayman-tron/weatherLeaf/actions"><img src="https://github.com/Ayman-tron/weatherLeaf/workflows/test-my-app/badge.svg" alt="Build Status"></a>
+<a href="https://github.com/Ayman-tron/weatherLeaf/actions"><img src="https://github.com/Ayman-tron/weatherLeaf/workflows/Run Tests/badge.svg" alt="Build Status"></a>
 # Weather Leaf - Weather App
 
 Weather Leaf is a user-friendly, efficient application for tracking real-time weather updates across various locations. 
