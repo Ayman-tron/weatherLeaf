@@ -1,6 +1,6 @@
 <a href="https://github.com/Ayman-tron/weatherLeaf/actions"><img src="https://github.com/Ayman-tron/weatherLeaf/workflows/Run Tests/badge.svg" alt="Build Status"></a>
 
-# Weather Leaf - Weather App
+# Weather Leaf | [Demo](https://weatherleaf.surge.sh)
 
 Weather Leaf is a user-friendly, efficient application for tracking real-time weather updates across various locations.
 This application was developed using Flutter, and it employs the OpenWeatherMap API for fetching accurate weather data.
