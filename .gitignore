@@ -31,9 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-lib/src/api/api_keys.dart
 coverage
-test/src/features/location
 
 # Symbolication related
 app.*.symbols
