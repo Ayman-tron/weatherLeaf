@@ -1,3 +1,6 @@
+// Credit: The following code snippet is adapted from the Original Project
+// (https://github.com/bizz84/open_weather_example_flutter/tree/main) by Andrea Bizztto (GitHub: @bizz84).
+
 sealed class APIException implements Exception {
   APIException(this.message);
   final String message;

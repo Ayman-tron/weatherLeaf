@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weatherLeaf/src/common_widgets/async_value_widget.dart';
-import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
 import 'package:weatherLeaf/src/features/weather/application/provider.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
-import 'package:weatherLeaf/src/features/weather/presentation/loading_screen.dart';
-import '../../../constants/constants.dart';
 import '../../location/domain/location.dart';
 
 class City_Search extends ConsumerStatefulWidget {

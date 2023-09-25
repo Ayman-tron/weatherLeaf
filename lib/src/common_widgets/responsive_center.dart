@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'breakpoints.dart';
 
+// Credit: The following code snippet is adapted from the Original Project
+// (https://github.com/bizz84/complete-flutter-course) by Andrea Bizztto (GitHub: @bizz84).
+
 /// Reusable widget for showing a child with a maximum content width constraint.
 /// If available width is larger than the maximum width, the child will be
 /// centered.
