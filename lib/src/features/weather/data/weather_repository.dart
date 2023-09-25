@@ -19,7 +19,7 @@ class HttpWeatherRepository {
         builder: (data) => Weather.fromJson(data),
       );
   Future<Weather> getWeatherByLatLon({required Location location}) => _getData(
-        uri: api.weatherByLatLon(location.latitude, location.longitude),
+        uri: api.weatherByLatLon(location),
         builder: (data) => Weather.fromJson(data),
       );
 

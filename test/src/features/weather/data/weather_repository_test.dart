@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:weatherLeaf/src/api/api.dart';
+import 'package:weatherLeaf/src/features/location/domain/location.dart';
 import 'package:weatherLeaf/src/features/weather/data/api_exception.dart';
 import 'package:weatherLeaf/src/features/weather/data/weather_repository.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
@@ -66,26 +67,42 @@ const expectedWeatherFromJson = Weather(
     cityName: 'Toronto');
 
 void main() {
-  test('repository with mocked http client, success ...', () async {
-    final mockHttpClient = MockHttpClient();
+  group('HttpWeatherRepository', () {
     final api = OpenWeatherMapAPI('apiKey');
-    final weatherRepository =
-        HttpWeatherRepository(api: api, client: mockHttpClient);
-    when(() => mockHttpClient.get(api.weatherByCity('Toronto'))).thenAnswer(
-        (_) => Future.value(http.Response(sampleWeatherJsonResponse, 200)));
-    final weather = await weatherRepository.getWeatherByCity(city: 'Toronto');
-    expect(weather, expectedWeatherFromJson);
-  });
+    test('get weather by cityName with mocked http client, success ...',
+        () async {
+      final mockHttpClient = MockHttpClient();
 
-  test('repository with mocked http client, failure ...', () async {
-    final mockHttpClient = MockHttpClient();
-    final api = OpenWeatherMapAPI('apiKey');
-    final weatherRepository =
-        HttpWeatherRepository(api: api, client: mockHttpClient);
-    when(() => mockHttpClient.get(api.weatherByCity('Toronto')))
-        .thenAnswer((_) => Future.value(http.Response('{}', 404)));
+      final weatherRepository =
+          HttpWeatherRepository(api: api, client: mockHttpClient);
+      when(() => mockHttpClient.get(api.weatherByCity('Toronto'))).thenAnswer(
+          (_) => Future.value(http.Response(sampleWeatherJsonResponse, 200)));
+      final weather = await weatherRepository.getWeatherByCity(city: 'Toronto');
+      expect(weather, expectedWeatherFromJson);
+    });
 
-    expect(() => weatherRepository.getWeatherByCity(city: 'Toronto'),
-        throwsA(isA<APIException>()));
+    test('get weather by cityName with mocked http client, failure ...',
+        () async {
+      final mockHttpClient = MockHttpClient();
+      final weatherRepository =
+          HttpWeatherRepository(api: api, client: mockHttpClient);
+      when(() => mockHttpClient.get(api.weatherByCity('Toronto')))
+          .thenAnswer((_) => Future.value(http.Response('{}', 404)));
+
+      expect(() => weatherRepository.getWeatherByCity(city: 'Toronto'),
+          throwsA(isA<APIException>()));
+    });
+
+    test('get weather by GeoLocation, success ...', () async {
+      final location = Location(latitude: 43.6535, longitude: -79.3839);
+      final mockHttpClient = MockHttpClient();
+      final weatherRepository =
+          HttpWeatherRepository(api: api, client: mockHttpClient);
+      when(() => mockHttpClient.get(api.weatherByLatLon(location))).thenAnswer(
+          (_) => Future.value(http.Response(sampleWeatherJsonResponse, 200)));
+      final weather =
+          await weatherRepository.getWeatherByLatLon(location: location);
+      expect(weather, expectedWeatherFromJson);
+    });
   });
 }

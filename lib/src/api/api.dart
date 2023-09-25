@@ -1,3 +1,5 @@
+import '../features/location/domain/location.dart';
+
 class OpenWeatherMapAPI {
   OpenWeatherMapAPI(this.apiKey);
   final String apiKey;
@@ -10,9 +12,9 @@ class OpenWeatherMapAPI {
         parameters: cityQueryParameters(city),
       );
 
-  Uri weatherByLatLon(double lat, double lon) => _buildUri(
+  Uri weatherByLatLon(Location location) => _buildUri(
         endpoint: "weather",
-        parameters: latLonQueryParameters(lat, lon),
+        parameters: latLonQueryParameters(location),
       );
 
   // Uri forecastByCity(String city) => _buildUri(
@@ -43,9 +45,9 @@ class OpenWeatherMapAPI {
         "units": "metric",
       };
 
-  Map<String, dynamic> latLonQueryParameters(double lat, double lon) => {
-        "lat": lat.toString(),
-        "lon": lon.toString(),
+  Map<String, dynamic> latLonQueryParameters(Location location) => {
+        "lat": location.latitude.toString(),
+        "lon": location.longitude.toString(),
         "appid": apiKey,
         "units": "metric",
       };
