@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class Weather {
   final double feelsLike;
   final int pressure;
@@ -25,5 +26,25 @@ class Weather {
   @override
   String toString() {
     return 'Weather(feelsLike: $feelsLike, pressure: $pressure, windSpeed: $windSpeed, humidity: $humidity, cityName: $cityName)';
+  }
+
+  @override
+  bool operator ==(covariant Weather other) {
+    if (identical(this, other)) return true;
+
+    return other.feelsLike == feelsLike &&
+        other.pressure == pressure &&
+        other.windSpeed == windSpeed &&
+        other.humidity == humidity &&
+        other.cityName == cityName;
+  }
+
+  @override
+  int get hashCode {
+    return feelsLike.hashCode ^
+        pressure.hashCode ^
+        windSpeed.hashCode ^
+        humidity.hashCode ^
+        cityName.hashCode;
   }
 }
