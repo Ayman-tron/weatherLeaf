@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
 import 'package:weatherLeaf/src/features/weather/data/weather_repository.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
@@ -20,5 +21,12 @@ final weatherByLatLonProvider =
   final weather = await ref
       .watch(weatherRepositoryProvider)
       .getWeatherByLatLon(location: location);
+  return weather;
+});
+
+final userLocationAndCityProvider =
+    FutureProvider.autoDispose<Weather>((ref) async {
+  final location = await ref.watch(locationRepositoryFutureProvider.future);
+  final weather = ref.watch(weatherByLatLonProvider(location).future);
   return weather;
 });

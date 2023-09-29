@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
 import 'package:weatherLeaf/src/features/weather/application/provider.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
 import '../../location/domain/location.dart';
@@ -29,55 +30,18 @@ class _City_SearchState extends ConsumerState<City_Search> {
     super.dispose();
   }
 
+  // Future<void> _getUserLocationAndSetCity() async {
+  //   FocusScope.of(context).unfocus();
+  //   final location = await ref.read(locationRepositoryFutureProvider.future);
+  //   final weather = await ref.read(weatherByLatLonProvider(location).future);
+  //   _cityController.text = weather.cityName;
+  // }
+
   Future<void> _getUserLocationAndSetCity() async {
     FocusScope.of(context).unfocus();
-    try {
-      final Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low,
-      );
-      final Location userLocation = Location(
-        latitude: position.latitude,
-        longitude: position.longitude,
-      );
-      print(userLocation);
-      final Weather weather =
-          await ref.read(weatherByLatLonProvider(userLocation).future);
-      //print(weather);
-      // Update the city in the controller
-      _cityController.text = weather.cityName;
-    } catch (e) {
-      // Handle location access or other errors
-      print("Error getting user location: $e");
-    }
+    final weather = await ref.read(userLocationAndCityProvider.future);
+    _cityController.text = weather.cityName;
   }
-
-// TODO: Use locationRepositoryFutureProvider instead of using GeoLocator directly
-// Future<void> _getUserLocationAndSetCity() async {
-//   try {
-//     // Await the completion of locationRepositoryFutureProvider
-//     final AsyncValue<Location> locationAsyncValue =
-//         await ref.read(locationRepositoryFutureProvider);
-
-//     locationAsyncValue.when(
-//       data: (location) async {
-//         final Weather weather =
-//             await ref.read(weatherByLatLonProvider(location).future);
-//         // Update the city in the controller
-//         _cityController.text = weather.cityName;
-//       },
-//       loading: () {
-//         // Handle loading state if needed
-//       },
-//       error: (error, stackTrace) {
-//         // Handle error state if needed
-//         print("Error fetching location: $error");
-//       },
-//     );
-//   } catch (e) {
-//     // Handle any exceptions
-//     print("Error getting user location: $e");
-//   }
-// }
 
   @override
   Widget build(BuildContext context) {
