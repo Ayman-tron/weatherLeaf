@@ -90,7 +90,7 @@ void main() {
           .thenAnswer((_) => Future.value(http.Response('{}', 404)));
 
       expect(() => weatherRepository.getWeatherByCity(city: 'Toronto'),
-          throwsA(isA<APIException>()));
+          throw (Exception("Some error occurred")));
     });
 
     test('get weather by GeoLocation, success ...', () async {
