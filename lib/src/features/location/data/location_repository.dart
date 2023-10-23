@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
 
+part 'location_repository.g.dart';
+
 class LocationRepository {
   Future<Location> determinePosition() async {
     bool serviceEnabled;
