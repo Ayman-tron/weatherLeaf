@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:weatherLeaf/src/features/location/data/location_repository.dart';
+
 import 'package:weatherLeaf/src/features/weather/application/provider.dart';
-import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
-import '../../location/domain/location.dart';
 
 class City_Search extends ConsumerStatefulWidget {
-  const City_Search({Key? key}) : super(key: key);
+  const City_Search({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _City_SearchState();

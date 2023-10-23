@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'location_repository.g.dart';
 
 class LocationRepository {
   Future<Location> determinePosition() async {
@@ -40,15 +42,17 @@ class LocationRepository {
   }
 }
 
-final locationRepositoryProvider = Provider<LocationRepository>((ref) {
+@riverpod
+LocationRepository locationRepository(LocationRepositoryRef ref) {
   return LocationRepository();
-});
+}
 
-final locationRepositoryFutureProvider =
-    FutureProvider.autoDispose<Location>((ref) async {
+@riverpod
+Future<Location> locationRepositoryFuture(
+    LocationRepositoryFutureRef ref) async {
   print("Fetching location...");
   final locationRepository = ref.watch(locationRepositoryProvider);
   final location = await locationRepository.determinePosition();
   print("Location: $location");
   return location;
-});
+}

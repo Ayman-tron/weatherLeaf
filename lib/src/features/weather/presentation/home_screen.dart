@@ -7,7 +7,7 @@ import 'package:weatherLeaf/src/features/weather/presentation/weather_detail.dar
 import '../../../routing/app_router.dart';
 
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
   //final LocationRepository locationRepository = LocationRepository();
   @override
   Widget build(BuildContext context, WidgetRef ref) {

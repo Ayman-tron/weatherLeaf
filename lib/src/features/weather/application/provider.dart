@@ -3,30 +3,39 @@ import 'package:weatherLeaf/src/features/location/data/location_repository.dart'
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
 import 'package:weatherLeaf/src/features/weather/data/weather_repository.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'provider.g.dart';
 
-final cityProvider = StateProvider<String>((ref) {
-  return 'Toronto';
-});
+// Resource: https://codewithandrea.com/articles/flutter-riverpod-async-notifier/
+@riverpod
+class City extends _$City {
+  @override
+  String build() {
+    return "Toronto";
+  }
+}
 
-final weatherByCityProvider = FutureProvider.autoDispose<Weather>((ref) async {
+@riverpod
+Future<Weather> weatherByCity(WeatherByCityRef ref) async {
   final city = ref.watch(cityProvider);
   final weather =
       await ref.watch(weatherRepositoryProvider).getWeatherByCity(city: city);
   return weather;
-});
+}
 
-final weatherByLatLonProvider =
-    FutureProvider.autoDispose.family<Weather, Location>((ref, location) async {
+@riverpod
+Future<Weather> weatherByLatLon(
+    WeatherByLatLonRef ref, Location location) async {
   print("Fetching weather data by location...");
   final weather = await ref
       .watch(weatherRepositoryProvider)
       .getWeatherByLatLon(location: location);
   return weather;
-});
+}
 
-final userLocationAndCityProvider =
-    FutureProvider.autoDispose<Weather>((ref) async {
+@riverpod
+Future<Weather> userLocationAndCity(UserLocationAndCityRef ref) async {
   final location = await ref.watch(locationRepositoryFutureProvider.future);
   final weather = ref.watch(weatherByLatLonProvider(location).future);
   return weather;
-});
+}
