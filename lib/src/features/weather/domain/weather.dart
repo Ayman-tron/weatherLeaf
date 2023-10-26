@@ -7,15 +7,18 @@ class Weather {
     required this.humidity,
     required this.cityName,
     required this.icon,
+    required this.visibility,
   });
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
-        feelsLike: (json['main']['feels_like'] as num).toDouble(),
-        pressure: json['main']['pressure'] as int,
-        windSpeed: (json['wind']['speed'] as num).toDouble(),
-        humidity: json['main']['humidity'] as int,
-        cityName: json['name'] as String,
-        icon: json['weather'][0]['icon'] as String);
+      feelsLike: (json['main']['feels_like'] as num).toDouble(),
+      pressure: json['main']['pressure'] as int,
+      windSpeed: (json['wind']['speed'] as num).toDouble(),
+      humidity: json['main']['humidity'] as int,
+      cityName: json['name'] as String,
+      icon: json['weather'][0]['icon'] as String,
+      visibility: json['visibility'] as int,
+    );
   }
   final double feelsLike;
   final int pressure;
@@ -23,12 +26,13 @@ class Weather {
   final int humidity;
   final String cityName;
   final String icon;
+  final int visibility;
   String get iconUrl => "https://openweathermap.org/img/wn/$icon@2x.png";
   // Since all variables are final, declare the constructor below as const
 
   @override
   String toString() {
-    return 'Weather(feelsLike: $feelsLike, pressure: $pressure, windSpeed: $windSpeed, humidity: $humidity, cityName: $cityName, icon: $icon)';
+    return 'Weather(feelsLike: $feelsLike, pressure: $pressure, windSpeed: $windSpeed, humidity: $humidity, cityName: $cityName, icon: $icon, visibility: $visibility)';
   }
 
   @override
@@ -40,7 +44,8 @@ class Weather {
         other.windSpeed == windSpeed &&
         other.humidity == humidity &&
         other.cityName == cityName &&
-        other.icon == icon;
+        other.icon == icon &&
+        other.visibility == visibility;
   }
 
   @override
@@ -50,6 +55,7 @@ class Weather {
         windSpeed.hashCode ^
         humidity.hashCode ^
         cityName.hashCode ^
-        icon.hashCode;
+        icon.hashCode ^
+        visibility.hashCode;
   }
 }

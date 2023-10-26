@@ -6,6 +6,7 @@ import 'package:weatherLeaf/src/features/weather/application/provider.dart';
 import 'package:weatherLeaf/src/features/weather/presentation/weather_icon_image.dart';
 import 'package:weatherLeaf/src/utils/current_date_provider.dart';
 import '../../../routing/app_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -25,81 +26,161 @@ class HomeScreen extends ConsumerWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight)),
         child: SafeArea(
-          child: Column(
-            children: [
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          city,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+            child: Column(
+              children: [
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            city,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        IconButton(
-                          onPressed: () =>
-                              context.pushNamed(AppRoute.city.name),
-                          icon: const Icon(
-                            Icons.location_city,
-                            color: Colors.white,
+                          const SizedBox(
+                            height: 5,
                           ),
-                        )
-                      ],
+                          IconButton(
+                            onPressed: () =>
+                                context.pushNamed(AppRoute.city.name),
+                            icon: const Icon(
+                              Icons.location_city,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                    child: Text(
-                      currentDate,
-                      style: const TextStyle(
-                        color: Color(0xFF00a9d8),
-                        fontSize: 14,
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                      child: Text(
+                        currentDate,
+                        style: const TextStyle(
+                          color: Color(0xFF00a9d8),
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              AsyncValueWidget(
-                value: weatherData,
-                data: (weatherData) => Row(
-                  children: [
-                    Text(
-                      "${weatherData.feelsLike.toStringAsFixed(0)}°",
-                      style: const TextStyle(
-                          fontSize: 90,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    WeatherIconImage(iconUrl: weatherData.iconUrl, size: 60),
-                  ],
+                AsyncValueWidget(
+                  value: weatherData,
+                  data: (weatherData) => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${weatherData.feelsLike.toStringAsFixed(0)}°",
+                        style: const TextStyle(
+                            fontSize: 90,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      WeatherIconImage(iconUrl: weatherData.iconUrl, size: 60),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.35,
-              ),
-            ],
+                const SizedBox(
+                  height: 50,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.black),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: AsyncValueWidget(
+                      value: weatherData,
+                      data: (weatherData) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WeatherIcon(
+                              icon: Icons.air_outlined,
+                              description:
+                                  "${weatherData.windSpeed.toStringAsFixed(1)} km/h",
+                              weatherCondition: "Wind"),
+                          WeatherIcon(
+                              icon: Icons.water_drop_outlined,
+                              description:
+                                  "${weatherData.humidity.toStringAsFixed(0)}%",
+                              weatherCondition: "Humidity"),
+                          WeatherIcon(
+                              icon: Icons.visibility_outlined,
+                              description:
+                                  "${((weatherData.visibility) / 1000).toStringAsFixed(0)} km",
+                              weatherCondition: "Visibility"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class WeatherIcon extends StatelessWidget {
+  const WeatherIcon(
+      {super.key,
+      required this.icon,
+      required this.description,
+      required this.weatherCondition});
+  final IconData icon;
+  final String description;
+  final String weatherCondition;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(
+          icon,
+          color: const Color(0xFF00a9d8),
+          size: 50,
+        )
+            .animate(
+              onPlay: (controller) => controller.loop(count: 6, reverse: true),
+              delay: 600.ms,
+            )
+            .slideY(begin: 0, curve: Curves.bounceIn, duration: 200.ms)
+            .then()
+            .slideY(end: -0.25, curve: Curves.bounceOut),
+        const SizedBox(
+          height: 16,
+        ),
+        Text(
+          description,
+          style: const TextStyle(fontSize: 16, color: Color(0xFF00a9d8)),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Text(
+          weatherCondition,
+          style: const TextStyle(fontSize: 12, color: Color(0xFF00a9d8)),
+        ),
+      ],
     );
   }
 }
