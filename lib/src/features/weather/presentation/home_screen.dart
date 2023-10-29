@@ -131,7 +131,42 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              ],
+                const SizedBox(
+                  height: 16,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Weekly forecast",
+                    ),
+                    Icon(
+                      Icons.arrow_right_alt,
+                      size: 30,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                    height:
+                        100, // Set the desired height for the horizontal list
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 7, // Adjust the number of items as needed
+                      itemBuilder: (BuildContext context, int index) {
+                        // Replace WeeklyForecastWidget() with your content for each day
+                        return Container(
+                          width: 100, // Set the width of each item
+                          margin: const EdgeInsets.only(
+                              right: 16), // Add margin between items
+                          child:
+                              const WeeklyForecastWidget(), // Replace with your widget
+                        );
+                      },
+                    )),
+              ].animate(interval: 100.ms).fade(duration: 800.ms),
             ),
           ),
         ),
@@ -181,6 +216,41 @@ class WeatherIcon extends StatelessWidget {
           style: const TextStyle(fontSize: 12, color: Color(0xFF00a9d8)),
         ),
       ],
+    );
+  }
+}
+
+class WeeklyForecastWidget extends StatelessWidget {
+  const WeeklyForecastWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          width: 2, // Border thickness
+          color: Colors.black, // Border color
+        ),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              "26°",
+            ),
+            Icon(Icons.sunny),
+            Text(
+              "21 Jan",
+            )
+          ],
+        ),
+      ),
     );
   }
 }
