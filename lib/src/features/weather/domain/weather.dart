@@ -8,6 +8,7 @@ class Weather {
     required this.cityName,
     required this.icon,
     required this.visibility,
+    required this.date,
   });
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
@@ -18,6 +19,7 @@ class Weather {
       cityName: json['name'] as String,
       icon: json['weather'][0]['icon'] as String,
       visibility: json['visibility'] as int,
+      date: json['dt'] as DateTime,
     );
   }
   final double feelsLike;
@@ -28,34 +30,6 @@ class Weather {
   final String icon;
   final int visibility;
   String get iconUrl => "https://openweathermap.org/img/wn/$icon@2x.png";
+  final DateTime date;
   // Since all variables are final, declare the constructor below as const
-
-  @override
-  String toString() {
-    return 'Weather(feelsLike: $feelsLike, pressure: $pressure, windSpeed: $windSpeed, humidity: $humidity, cityName: $cityName, icon: $icon, visibility: $visibility)';
-  }
-
-  @override
-  bool operator ==(covariant Weather other) {
-    if (identical(this, other)) return true;
-
-    return other.feelsLike == feelsLike &&
-        other.pressure == pressure &&
-        other.windSpeed == windSpeed &&
-        other.humidity == humidity &&
-        other.cityName == cityName &&
-        other.icon == icon &&
-        other.visibility == visibility;
-  }
-
-  @override
-  int get hashCode {
-    return feelsLike.hashCode ^
-        pressure.hashCode ^
-        windSpeed.hashCode ^
-        humidity.hashCode ^
-        cityName.hashCode ^
-        icon.hashCode ^
-        visibility.hashCode;
-  }
 }
