@@ -27,13 +27,6 @@ class _City_SearchState extends ConsumerState<City_Search> {
     super.dispose();
   }
 
-  // Future<void> _getUserLocationAndSetCity() async {
-  //   FocusScope.of(context).unfocus();
-  //   final location = await ref.read(locationRepositoryFutureProvider.future);
-  //   final weather = await ref.read(weatherByLatLonProvider(location).future);
-  //   _cityController.text = weather.cityName;
-  // }
-
   Future<void> _getUserLocationAndSetCity() async {
     FocusScope.of(context).unfocus();
     final weather = await ref.read(userLocationAndCityProvider.future);
@@ -45,11 +38,10 @@ class _City_SearchState extends ConsumerState<City_Search> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/location_background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+            gradient: LinearGradient(
+                colors: [Color(0xFF233079), Color(0xFF00a9d8)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight)),
         constraints: const BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
