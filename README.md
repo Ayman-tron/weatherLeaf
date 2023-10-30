@@ -16,13 +16,12 @@ This application was developed using Flutter, and it employs the OpenWeatherMap 
   </tr>
 </table>
 
-
-
 ## Features
 
-- Retrieve real-time weather updates by city name
+- Retrieve real-time weather updates by city name or current geolocation
 - Fetch location-based weather data
 - Loading and error screens for a seamless user experience
+- Five day weather forecast
 
 ## Technologies Used
 
