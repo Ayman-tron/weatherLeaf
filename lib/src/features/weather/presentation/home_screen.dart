@@ -7,6 +7,7 @@ import 'package:weatherLeaf/src/common_widgets/async_value_widget.dart';
 import 'package:weatherLeaf/src/features/weather/application/provider.dart';
 import 'package:weatherLeaf/src/features/weather/presentation/hourly_weather.dart';
 import 'package:weatherLeaf/src/features/weather/presentation/weather_icon_image.dart';
+import 'package:weatherLeaf/src/features/weather/presentation/widgets/weather_info.dart';
 import 'package:weatherLeaf/src/utils/current_date_provider.dart';
 import '../../../routing/app_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -55,7 +56,7 @@ class HomeScreen extends ConsumerWidget {
                             onPressed: () =>
                                 context.pushNamed(AppRoute.city.name),
                             icon: const Icon(
-                              Icons.location_city,
+                              Icons.search,
                               color: Colors.white,
                             ),
                           )
@@ -117,17 +118,17 @@ class HomeScreen extends ConsumerWidget {
                       data: (weatherData) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          WeatherIcon(
+                          WeatherInfo(
                               icon: Icons.air_outlined,
                               description:
                                   "${weatherData.windSpeed.toStringAsFixed(1)} km/h",
                               weatherCondition: "Wind"),
-                          WeatherIcon(
+                          WeatherInfo(
                               icon: Icons.water_drop_outlined,
                               description:
                                   "${weatherData.humidity.toStringAsFixed(0)}%",
                               weatherCondition: "Humidity"),
-                          WeatherIcon(
+                          WeatherInfo(
                               icon: Icons.visibility_outlined,
                               description:
                                   "${((weatherData.visibility) / 1000).toStringAsFixed(0)} km",
@@ -138,20 +139,20 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
                 const Spacer(
-                  flex: 2,
+                  flex: 1,
                 ),
                 const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Weekly forecast",
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                     ),
-                    Icon(
-                      Icons.arrow_right_alt,
-                      size: 40,
-                    )
+                    // Icon(
+                    //   Icons.arrow_right_alt,
+                    //   size: 40,
+                    // )
                   ],
                 ),
                 const SizedBox(
@@ -161,56 +162,11 @@ class HomeScreen extends ConsumerWidget {
                 const Spacer(
                   flex: 3,
                 ),
-              ].animate(interval: 100.ms).fade(duration: 800.ms),
+              ].animate(interval: 100.ms).fade(duration: 600.ms),
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class WeatherIcon extends StatelessWidget {
-  const WeatherIcon(
-      {super.key,
-      required this.icon,
-      required this.description,
-      required this.weatherCondition});
-  final IconData icon;
-  final String description;
-  final String weatherCondition;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color: const Color(0xFF00a9d8),
-          size: 50,
-        )
-            .animate(
-              onPlay: (controller) => controller.loop(count: 6, reverse: true),
-              delay: 600.ms,
-            )
-            .slideY(begin: 0, curve: Curves.bounceIn, duration: 200.ms)
-            .then()
-            .slideY(end: -0.25, curve: Curves.bounceOut),
-        const SizedBox(
-          height: 16,
-        ),
-        Text(
-          description,
-          style: const TextStyle(fontSize: 16, color: Color(0xFF00a9d8)),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          weatherCondition,
-          style: const TextStyle(fontSize: 12, color: Color(0xFF00a9d8)),
-        ),
-      ],
     );
   }
 }

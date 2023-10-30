@@ -1,51 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:weatherLeaf/src/common_widgets/breakpoints.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class WeatherInfo extends StatelessWidget {
   const WeatherInfo(
       {super.key,
       required this.icon,
-      required this.iconDescription,
-      required this.data});
-
-  final Widget icon;
-  final String iconDescription;
-  final Widget data;
+      required this.description,
+      required this.weatherCondition});
+  final IconData icon;
+  final String description;
+  final String weatherCondition;
 
   @override
   Widget build(BuildContext context) {
-    Breakpoint breakpoint = Breakpoint();
-    return Row(
+    return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.grey.shade200,
-          ),
-          child: IconButton(
-            onPressed: null,
-            icon: icon,
-          ),
+        Icon(
+          icon,
+          color: const Color(0xFF00a9d8),
+          size: 50,
+        )
+            .animate(
+              onPlay: (controller) => controller.loop(count: 6, reverse: true),
+              delay: 600.ms,
+            )
+            .slideY(begin: 0, curve: Curves.bounceIn, duration: 200.ms)
+            .then()
+            .slideY(end: -0.25, curve: Curves.bounceOut),
+        const SizedBox(
+          height: 16,
+        ),
+        Text(
+          description,
+          style: const TextStyle(fontSize: 16, color: Color(0xFF00a9d8)),
         ),
         const SizedBox(
-          width: 20,
+          height: 8,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              iconDescription,
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade400,
-                  fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            data,
-          ],
-        )
+        Text(
+          weatherCondition,
+          style: const TextStyle(fontSize: 12, color: Color(0xFF00a9d8)),
+        ),
       ],
     );
   }
