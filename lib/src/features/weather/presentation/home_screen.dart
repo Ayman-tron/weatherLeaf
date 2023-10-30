@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weatherLeaf/src/common_widgets/async_value_widget.dart';
 import 'package:weatherLeaf/src/features/weather/application/provider.dart';
+import 'package:weatherLeaf/src/features/weather/presentation/hourly_weather.dart';
 import 'package:weatherLeaf/src/features/weather/presentation/weather_icon_image.dart';
 import 'package:weatherLeaf/src/utils/current_date_provider.dart';
 import '../../../routing/app_router.dart';
@@ -61,8 +64,8 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
+                const Spacer(
+                  flex: 1,
                 ),
                 Center(
                   child: Container(
@@ -81,13 +84,16 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const Spacer(
+                  flex: 1,
+                ),
                 AsyncValueWidget(
                   value: weatherData,
                   data: (weatherData) => Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${weatherData.feelsLike.toStringAsFixed(0)}°",
+                        "${weatherData.temp.toInt().toString()}°",
                         style: const TextStyle(
                             fontSize: 90,
                             color: Colors.white,
@@ -97,8 +103,8 @@ class HomeScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 50,
+                const Spacer(
+                  flex: 1,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -131,41 +137,30 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 16,
+                const Spacer(
+                  flex: 2,
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Weekly forecast",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                     ),
                     Icon(
                       Icons.arrow_right_alt,
-                      size: 30,
+                      size: 40,
                     )
                   ],
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                SizedBox(
-                    height:
-                        100, // Set the desired height for the horizontal list
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 7, // Adjust the number of items as needed
-                      itemBuilder: (BuildContext context, int index) {
-                        // Replace WeeklyForecastWidget() with your content for each day
-                        return Container(
-                          width: 100, // Set the width of each item
-                          margin: const EdgeInsets.only(
-                              right: 16), // Add margin between items
-                          child:
-                              const WeeklyForecastWidget(), // Replace with your widget
-                        );
-                      },
-                    )),
+                const HourlyWeather(),
+                const Spacer(
+                  flex: 3,
+                ),
               ].animate(interval: 100.ms).fade(duration: 800.ms),
             ),
           ),
@@ -216,41 +211,6 @@ class WeatherIcon extends StatelessWidget {
           style: const TextStyle(fontSize: 12, color: Color(0xFF00a9d8)),
         ),
       ],
-    );
-  }
-}
-
-class WeeklyForecastWidget extends StatelessWidget {
-  const WeeklyForecastWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          width: 2, // Border thickness
-          color: Colors.black, // Border color
-        ),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              "26°",
-            ),
-            Icon(Icons.sunny),
-            Text(
-              "21 Jan",
-            )
-          ],
-        ),
-      ),
     );
   }
 }

@@ -17,15 +17,15 @@ class OpenWeatherMapAPI {
         parameters: latLonQueryParameters(location),
       );
 
-  // Uri forecastByCity(String city) => _buildUri(
-  //       endpoint: "forecast",
-  //       parameters: cityQueryParameters(city),
-  //     );
+  Uri forecastByCity(String city) => _buildUri(
+        endpoint: "forecast",
+        parameters: cityQueryParameters(city),
+      );
 
-  // Uri forecastByLatLon(double lat, double lon) => _buildUri(
-  //       endpoint: "forecast",
-  //       parameters: latLonQueryParameters(lat, lon),
-  //     );
+  Uri forecastByLatLon(Location location) => _buildUri(
+        endpoint: "forecast",
+        parameters: latLonQueryParameters(location),
+      );
 
   Uri _buildUri({
     required String endpoint,

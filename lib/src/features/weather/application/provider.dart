@@ -38,6 +38,7 @@ final hourlyWeatherProvider = FutureProvider.autoDispose<Forecast>((ref) async {
   final city = ref.watch(cityProvider);
   final forecast =
       await ref.watch(weatherRepositoryProvider).getForecastByCity(city: city);
+  print(forecast);
   return forecast;
 });
 

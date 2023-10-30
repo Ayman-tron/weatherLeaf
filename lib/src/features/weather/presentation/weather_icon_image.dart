@@ -9,7 +9,6 @@ class WeatherIconImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Icon URL: $iconUrl');
     return CachedNetworkImage(
       imageUrl: iconUrl,
       width: size,

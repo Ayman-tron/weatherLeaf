@@ -12,18 +12,29 @@ class HourlyWeather extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final forecastDataValue = ref.watch(hourlyWeatherProvider);
     return forecastDataValue.when(
-      data: (forecastData) {
-        // API returns data points in 3-hour intervals -> 1 day = 8 intervals
-        final items = [0, 8, 16, 24, 32];
-        return HourlyWeatherRow(
-          weatherDataItems: [
-            for (var i in items) forecastData.forecastList[i],
-          ],
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, __) => Text(e.toString()),
-    );
+        data: (forecastData) {
+          print('Forecast data: $forecastData');
+          if (forecastData.forecastList.isEmpty) {
+            // Handle empty list, perhaps return a different widget or display a message
+            return const Text('No forecast data available');
+          } else {
+            final items = [0, 8, 16, 24, 32];
+            return HourlyWeatherRow(
+              weatherDataItems: [
+                for (var i in items)
+                  if (i <
+                      forecastData
+                          .forecastList.length) // Ensure index is within range
+                    forecastData.forecastList[i],
+              ],
+            );
+          }
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, __) {
+          print(e); // Add this line
+          return Text(e.toString());
+        });
   }
 }
 
@@ -48,9 +59,10 @@ class HourlyWeatherItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(data);
     final textTheme = Theme.of(context).textTheme;
     const fontWeight = FontWeight.normal;
-    final temp = data.toString();
+    final temp = data.temp.toInt().toString();
     return Expanded(
       child: Column(
         children: [
