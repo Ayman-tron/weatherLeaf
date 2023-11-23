@@ -24,7 +24,7 @@ final locationRepositoryProvider =
 
 typedef LocationRepositoryRef = AutoDisposeProviderRef<LocationRepository>;
 String _$locationRepositoryFutureHash() =>
-    r'63ed24d90515c209a6539c2bbbc16dda24a382a9';
+    r'6e8c5fe51cdfec526cfeec221f118441c4bf52ec';
 
 /// See also [locationRepositoryFuture].
 @ProviderFor(locationRepositoryFuture)

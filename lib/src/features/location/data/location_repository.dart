@@ -50,9 +50,9 @@ LocationRepository locationRepository(LocationRepositoryRef ref) {
 @riverpod
 Future<Location> locationRepositoryFuture(
     LocationRepositoryFutureRef ref) async {
-  print("Fetching location...");
+  //print("Fetching location...");
   final locationRepository = ref.watch(locationRepositoryProvider);
   final location = await locationRepository.determinePosition();
-  print("Location: $location");
+  //print("Location: $location");
   return location;
 }

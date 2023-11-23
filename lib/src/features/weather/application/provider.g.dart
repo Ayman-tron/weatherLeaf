@@ -21,7 +21,7 @@ final weatherByCityProvider = AutoDisposeFutureProvider<Weather>.internal(
 );
 
 typedef WeatherByCityRef = AutoDisposeFutureProviderRef<Weather>;
-String _$weatherByLatLonHash() => r'c99754f92c5c951c02a93268f5f394864ffaf10b';
+String _$weatherByLatLonHash() => r'baba5b8ea741541338d85dc205a235a0b9603f0b';
 
 /// Copied from Dart SDK
 class _SystemHash {

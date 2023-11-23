@@ -62,6 +62,9 @@ dev_dependencies:
   riverpod_generator: ^2.1.5
   cached_network_image: ^3.3.0
   flutter_animate: ^4.2.0+1
+  envied_generator: 0.3.0+3
+  connectivity_plus: ^5.0.1
+  rename: ^3.0.1
 
 # The following section is specific to Flutter packages.
 flutter:

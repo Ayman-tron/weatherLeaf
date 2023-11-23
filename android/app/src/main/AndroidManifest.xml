@@ -2,8 +2,9 @@
     package="com.example.weather_app_riverpod">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="weather_app_riverpod"
+        android:label="Weather Leaf"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

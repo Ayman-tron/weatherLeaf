@@ -27,7 +27,7 @@ Future<Weather> weatherByCity(WeatherByCityRef ref) async {
 @riverpod
 Future<Weather> weatherByLatLon(
     WeatherByLatLonRef ref, Location location) async {
-  print("Fetching weather data by location...");
+  //print("Fetching weather data by location...");
   final weather = await ref
       .watch(weatherRepositoryProvider)
       .getWeatherByLatLon(location: location);
@@ -38,7 +38,7 @@ final hourlyWeatherProvider = FutureProvider.autoDispose<Forecast>((ref) async {
   final city = ref.watch(cityProvider);
   final forecast =
       await ref.watch(weatherRepositoryProvider).getForecastByCity(city: city);
-  print(forecast);
+  //print(forecast);
   return forecast;
 });
 

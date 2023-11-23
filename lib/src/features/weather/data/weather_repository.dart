@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:weatherLeaf/env.dart';
 import 'package:weatherLeaf/src/api/api.dart';
 import 'package:weatherLeaf/src/api/api_keys.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
@@ -62,5 +63,5 @@ class HttpWeatherRepository {
 @riverpod
 HttpWeatherRepository weatherRepository(WeatherRepositoryRef ref) {
   return HttpWeatherRepository(
-      api: OpenWeatherMapAPI(apiKey), client: http.Client());
+      api: OpenWeatherMapAPI(Env.ApiKey), client: http.Client());
 }

@@ -35,7 +35,7 @@ coverage
 lib/src/features/weather/presentation/temp.dart
 # Symbolication related
 app.*.symbols
-
+.env
 # Obfuscation related
 app.*.map.json
 

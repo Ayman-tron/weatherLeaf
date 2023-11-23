@@ -13,11 +13,11 @@ class Forecast {
   factory Forecast.fromJson(Map<String, dynamic> json) {
     var list = json['list'];
     if (list == null) {
-      print('Error: Missing "list" field in JSON.');
+      //print('Error: Missing "list" field in JSON.');
       throw const FormatException("Missing 'list' field in JSON.");
     }
     if (list is! List) {
-      print('Error: "list" field should be a List.');
+      //print('Error: "list" field should be a List.');
       throw const FormatException("'list' field should be a List.");
     }
 
@@ -26,13 +26,13 @@ class Forecast {
       try {
         var item = list[i];
         if (item is! Map<String, dynamic>) {
-          print(
-              'Error: List item at index $i should be a Map<String, dynamic>, but is ${item.runtimeType}.');
+          // print(
+          //     'Error: List item at index $i should be a Map<String, dynamic>, but is ${item.runtimeType}.');
           continue; // Skip to next iteration
         }
         forecastList.add(Weather.fromJson(item));
       } catch (e) {
-        print('Error parsing weather data at index $i: $e');
+        //print('Error parsing weather data at index $i: $e');
       }
     }
 

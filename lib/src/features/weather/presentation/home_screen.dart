@@ -11,6 +11,7 @@ import 'package:weatherLeaf/src/features/weather/presentation/widgets/weather_in
 import 'package:weatherLeaf/src/utils/current_date_provider.dart';
 import '../../../routing/app_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -22,150 +23,187 @@ class HomeScreen extends ConsumerWidget {
     final currentDate = dateBuilder();
     // print(weatherData);
     final city = ref.watch(cityProvider);
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xFF233079), Color(0xFF00a9d8)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight)),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
-            child: Column(
-              children: [
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, left: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            city,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+    return FutureBuilder(
+      future: checkConnectivity(context),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        // While checking connectivity, you can display a loading indicator or return an empty container
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Scaffold(
+          body: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xFF233079), Color(0xFF00a9d8)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight)),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+                child: Column(
+                  children: [
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                city,
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              IconButton(
+                                onPressed: () =>
+                                    context.pushNamed(AppRoute.city.name),
+                                icon: const Icon(
+                                  Icons.search,
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          IconButton(
-                            onPressed: () =>
-                                context.pushNamed(AppRoute.city.name),
-                            icon: const Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                      child: Text(
-                        currentDate,
-                        style: const TextStyle(
-                          color: Color(0xFF00a9d8),
-                          fontSize: 14,
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                          child: Text(
+                            currentDate,
+                            style: const TextStyle(
+                              color: Color(0xFF00a9d8),
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                AsyncValueWidget(
-                  value: weatherData,
-                  data: (weatherData) => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${weatherData.temp.toInt().toString()}°",
-                        style: const TextStyle(
-                            fontSize: 90,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      WeatherIconImage(iconUrl: weatherData.iconUrl, size: 60),
-                    ],
-                  ),
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.black),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: AsyncValueWidget(
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    AsyncValueWidget(
                       value: weatherData,
                       data: (weatherData) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          WeatherInfo(
-                              icon: Icons.air_outlined,
-                              description:
-                                  "${weatherData.windSpeed.toStringAsFixed(1)} km/h",
-                              weatherCondition: "Wind"),
-                          WeatherInfo(
-                              icon: Icons.water_drop_outlined,
-                              description:
-                                  "${weatherData.humidity.toStringAsFixed(0)}%",
-                              weatherCondition: "Humidity"),
-                          WeatherInfo(
-                              icon: Icons.visibility_outlined,
-                              description:
-                                  "${((weatherData.visibility) / 1000).toStringAsFixed(0)} km",
-                              weatherCondition: "Visibility"),
+                          Text(
+                            "${weatherData.temp.toInt().toString()}°",
+                            style: const TextStyle(
+                                fontSize: 90,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          WeatherIconImage(
+                              iconUrl: weatherData.iconUrl, size: 60),
                         ],
                       ),
                     ),
-                  ),
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Weekly forecast",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    const Spacer(
+                      flex: 1,
                     ),
-                    // Icon(
-                    //   Icons.arrow_right_alt,
-                    //   size: 40,
-                    // )
-                  ],
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: AsyncValueWidget(
+                          value: weatherData,
+                          data: (weatherData) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              WeatherInfo(
+                                  icon: Icons.air_outlined,
+                                  description:
+                                      "${weatherData.windSpeed.toStringAsFixed(1)} km/h",
+                                  weatherCondition: "Wind"),
+                              WeatherInfo(
+                                  icon: Icons.water_drop_outlined,
+                                  description:
+                                      "${weatherData.humidity.toStringAsFixed(0)}%",
+                                  weatherCondition: "Humidity"),
+                              WeatherInfo(
+                                  icon: Icons.visibility_outlined,
+                                  description:
+                                      "${((weatherData.visibility) / 1000).toStringAsFixed(0)} km",
+                                  weatherCondition: "Visibility"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Weekly forecast",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                        ),
+                        // Icon(
+                        //   Icons.arrow_right_alt,
+                        //   size: 40,
+                        // )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const HourlyWeather(),
+                    const Spacer(
+                      flex: 3,
+                    ),
+                  ].animate(interval: 100.ms).fade(duration: 600.ms),
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const HourlyWeather(),
-                const Spacer(
-                  flex: 3,
-                ),
-              ].animate(interval: 100.ms).fade(duration: 600.ms),
+              ),
             ),
           ),
-        ),
+        );
+      },
+    );
+  }
+
+  Future<void> checkConnectivity(BuildContext context) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      showNoInternetDialog(context);
+    }
+  }
+
+  void showNoInternetDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('No Internet Connection'),
+        content:
+            const Text('Please check your internet connection and try again.'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Dismiss the dialog
+            },
+          ),
+        ],
       ),
     );
   }

@@ -13,7 +13,7 @@ class HourlyWeather extends ConsumerWidget {
     final forecastDataValue = ref.watch(hourlyWeatherProvider);
     return forecastDataValue.when(
         data: (forecastData) {
-          print('Forecast data: $forecastData');
+          //print('Forecast data: $forecastData');
           if (forecastData.forecastList.isEmpty) {
             // Handle empty list, perhaps return a different widget or display a message
             return const Text('No forecast data available');
@@ -32,7 +32,7 @@ class HourlyWeather extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, __) {
-          print(e); // Add this line
+          //print(e); // Add this line
           return Text(e.toString());
         });
   }
@@ -59,7 +59,7 @@ class HourlyWeatherItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(data);
+    //print(data);
     final textTheme = Theme.of(context).textTheme;
     const fontWeight = FontWeight.normal;
     final temp = data.temp.toInt().toString();
