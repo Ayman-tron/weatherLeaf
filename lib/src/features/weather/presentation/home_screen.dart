@@ -154,24 +154,33 @@ class HomeScreen extends ConsumerWidget {
                 const Spacer(
                   flex: 1,
                 ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Weekly forecast",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                    ),
-                    // Icon(
-                    //   Icons.arrow_right_alt,
-                    //   size: 40,
-                    // )
-                  ],
+                weatherData.maybeWhen(
+                  error: (error, _) => const SizedBox
+                      .shrink(), // Don't display if there's an error
+                  orElse: () => const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Weekly forecast",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w600),
+                      ),
+                      // Icon(
+                      //   Icons.arrow_right_alt,
+                      //   size: 40,
+                      // )
+                    ],
+                  ), // Display HourlyWeather if no error
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                const HourlyWeather(),
+                weatherData.maybeWhen(
+                  error: (error, _) => const SizedBox
+                      .shrink(), // Don't display if there's an error
+                  orElse: () =>
+                      const HourlyWeather(), // Display HourlyWeather if no error
+                ),
                 const Spacer(
                   flex: 3,
                 ),
