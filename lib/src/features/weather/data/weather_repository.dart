@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:weatherLeaf/env.dart';
 import 'package:weatherLeaf/src/api/api.dart';
-import 'package:weatherLeaf/src/api/api_keys.dart';
 import 'package:weatherLeaf/src/features/location/domain/location.dart';
+import 'package:weatherLeaf/src/features/weather/data/api_exception.dart';
 import 'package:weatherLeaf/src/features/weather/domain/forecast.dart';
 import 'package:weatherLeaf/src/features/weather/domain/weather.dart';
 // Credit: The following code snippet is adapted from the Original Project
@@ -48,14 +48,14 @@ class HttpWeatherRepository {
           final data = json.decode(response.body);
           return builder(data);
         case 401:
-          throw Exception("Invalid API Key");
+          throw InvalidApiKeyException();
         case 404:
-          throw Exception("City not found");
+          throw CityNotFoundException();
         default:
-          throw Exception("Unknown Exception");
+          throw UnknownException();
       }
     } on SocketException catch (_) {
-      throw Exception("No Internet Exception");
+      throw NoInternetConnectionException();
     }
   }
 }

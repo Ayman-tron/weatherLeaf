@@ -5,18 +5,22 @@ class WeatherInfo extends StatelessWidget {
   const WeatherInfo(
       {super.key,
       required this.icon,
-      required this.description,
+      required this.content,
       required this.weatherCondition});
   final IconData icon;
-  final String description;
+  final String content;
   final String weatherCondition;
 
   @override
   Widget build(BuildContext context) {
+    final IconData displayIcon = icon ?? Icons.error_outline; // Default icon
+    final String displayContent = content.isNotEmpty ? content : 'N/A';
+    final String displayCondition =
+        weatherCondition.isNotEmpty ? weatherCondition : 'Unknown';
     return Column(
       children: [
         Icon(
-          icon,
+          displayIcon,
           color: const Color(0xFF00a9d8),
           size: 50,
         )
@@ -31,14 +35,14 @@ class WeatherInfo extends StatelessWidget {
           height: 16,
         ),
         Text(
-          description,
+          displayContent,
           style: const TextStyle(fontSize: 16, color: Color(0xFF00a9d8)),
         ),
         const SizedBox(
           height: 8,
         ),
         Text(
-          weatherCondition,
+          displayCondition,
           style: const TextStyle(fontSize: 12, color: Color(0xFF00a9d8)),
         ),
       ],
